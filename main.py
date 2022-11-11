@@ -109,21 +109,26 @@ def manage_resources(name_of_item, money_inserted):
 def add_resources():
     """Prompts user to add resources to the machine."""
     back = False
-    while not back:
+    while True:
         print_report()
-        option = input("What will you add? ").lower()
-        try:
-            if option not in data.resources:
+        option = ""
+        while option not in data.resources:
+            try:
+                option = input("What will you add? ").lower()
                 if option == "exit":
                     print("Returning to main menu.")
                     return
                 else:
-                    print(f"{option} is not a valid option.")
-            else:
-                amount = int(input(f"How much {option}? "))
-                data.resources[option] += amount
-        except ValueError:
-            print("Please select water, milk or coffee.")
+                    var = data.resources[option]
+                    amount = ""
+                    while not isinstance(amount, int):
+                        try:
+                            amount = int(input(f"How much {option}? "))
+                            data.resources[option] += amount
+                        except ValueError:
+                            print("Please specify a whole number.")
+            except KeyError:
+                print(f"{option} is not a valid option.")
 
 
 def get_selection():
